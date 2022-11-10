@@ -1,0 +1,12 @@
+# File types:
+*.exe
+*.msixbundle
+
+# Specific files:
+.env
+
+# Specific folders:
+.vscode/
+.idea/
+app/
+.VSCodeCounter/
