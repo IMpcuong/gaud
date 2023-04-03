@@ -4,6 +4,11 @@ ARG APP=gad
 
 WORKDIR /usr/src/app
 
+ENV GO111MODULE=on \
+    CGO_ENABLED=0  \
+    GOARCH="amd64" \
+    GOOS=linux
+
 COPY go.mod ./
 RUN if [[ -f go.sum ]]; then cp go.sum ./; fi
 RUN go clean && \
@@ -12,7 +17,8 @@ RUN go clean && \
   go mod verify
 
 COPY *.go ./
-RUN go build -v -o ./$APP ./...
+RUN go build --ldflags "-extldflags -static" \
+      -v -o ./$APP ./...
 
 # RUN apk add --update --no-cache
 FROM golang:1.18-alpine as main
